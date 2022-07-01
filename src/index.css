@@ -26,3 +26,7 @@ code {
   justify-content: center;
 }
 
+a {
+  color: inherit;
+}
+

@@ -4,6 +4,9 @@ import Header from '../components/Header';
 import Wrapper from '../components/Wrapper';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import ResultsContent from '../components/ResultsContent';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import Loading from './Loading';
 
 const InnerWrapper = styled.div`
   display: flex;
@@ -18,6 +21,7 @@ const SearchForm = styled.form`
   display: flex;
   width: 50%;
   gap: 10px;
+  padding-bottom: 10px;
 `;
 
 const SearchInput = styled(Input)`
@@ -36,7 +40,20 @@ export default class Search extends Component {
     this.state = {
       isBtnDisabled: true,
       inputValue: '',
+      searchValue: '',
+      searchResult: [],
+      searchStatus: false,
+      shouldRender: false,
+      loading: false,
     };
+  }
+
+  componentDidMount() {
+    this.isMount = true;
+  }
+
+  componentWillUnmount() {
+    this.isMount = false;
   }
 
   validateButton = () => {
@@ -57,30 +74,69 @@ export default class Search extends Component {
 
   handleClick = (event) => {
     event.preventDefault();
+    if (this.isMount) {
+      const { inputValue } = this.state;
+      this.setState({
+        loading: true,
+        searchValue: inputValue,
+        inputValue: '',
+      }, async () => {
+        const response = await searchAlbumsAPI(inputValue);
+        const status = response.length === 0;
+        this.setState({
+          loading: false,
+          searchResult: response,
+          searchStatus: !status,
+          shouldRender: true,
+        });
+      });
+    }
   }
 
   render() {
-    const { inputValue, isBtnDisabled } = this.state;
+    const {
+      inputValue,
+      isBtnDisabled,
+      searchValue,
+      searchResult,
+      searchStatus,
+      shouldRender,
+      loading } = this.state;
     return (
       <Wrapper data-testid="page-search">
         <Header />
         <InnerWrapper>
-          <SearchForm>
-            <SearchInput
-              placeholder="O Que você está buscando?"
-              name="inputValue"
-              value={ inputValue }
-              onChange={ this.handleChange }
-              data-testid="search-artist-input"
-            />
-            <Button
-              data-testid="search-artist-button"
-              onClick={ this.handleClick }
-              disabled={ isBtnDisabled }
-            >
-              Pesquisar
-            </Button>
-          </SearchForm>
+          {
+            loading
+              ? <Loading />
+              : (
+                <SearchForm>
+                  <SearchInput
+                    placeholder="O Que você está buscando?"
+                    name="inputValue"
+                    value={ inputValue }
+                    onChange={ this.handleChange }
+                    data-testid="search-artist-input"
+                  />
+                  <Button
+                    data-testid="search-artist-button"
+                    onClick={ this.handleClick }
+                    disabled={ isBtnDisabled }
+                  >
+                    Pesquisar
+                  </Button>
+                </SearchForm>
+              )
+          }
+          {
+            shouldRender
+              && (
+                <ResultsContent
+                  searchValue={ searchValue }
+                  searchResult={ searchResult }
+                  searchStatus={ searchStatus }
+                />)
+          }
         </InnerWrapper>
       </Wrapper>);
   }
