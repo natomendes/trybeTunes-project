@@ -28,6 +28,7 @@ const AlbumImage = styled.img`
 `;
 
 const AlbumName = styled.p`
+  color: white;
   font-family: 'Verdana', sans-serif;
   font-style: normal;
   font-weight: 700;
@@ -36,6 +37,7 @@ const AlbumName = styled.p`
 `;
 
 const ArtistName = styled.p`
+color: white;
 font-family: 'Verdana', sans-serif;
 font-style: normal;
 font-weight: 700;
@@ -51,8 +53,8 @@ export default class AlbumCard extends Component {
         <ImageWrapper>
           <AlbumImage src={ artworkUrl100 } />
         </ImageWrapper>
-        <AlbumName>{ `Album: ${collectionName}` }</AlbumName>
-        <ArtistName>{ `Artist: ${artistName}` }</ArtistName>
+        <AlbumName data-testid="album-name">{ `Album: ${collectionName}` }</AlbumName>
+        <ArtistName data-testid="artist-name">{ `Artist: ${artistName}` }</ArtistName>
       </ContentWrapper>
     );
   }
