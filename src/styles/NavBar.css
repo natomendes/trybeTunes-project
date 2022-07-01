@@ -1,0 +1,6 @@
+.NavBar a {
+  background: rgb(50, 50, 50);
+  color: rgb(19, 155, 123);
+  flex: 1 30%;
+  text-align: center;
+}
