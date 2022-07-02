@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import FavoriteCheckbox from './FavoriteCheckbox';
 
 const ContentWrapper = styled.div`
   align-items: center;
@@ -22,7 +23,7 @@ const MusicName = styled.p`
 
 export default class MusicCard extends Component {
   render() {
-    const { trackName, previewUrl } = this.props;
+    const { trackId, trackName, previewUrl, toggleRender } = this.props;
     return (
       <ContentWrapper>
         <MusicName>{trackName}</MusicName>
@@ -33,6 +34,10 @@ export default class MusicCard extends Component {
           <code>audio</code>
           .
         </audio>
+        <FavoriteCheckbox
+          trackId={ trackId }
+          toggleRender={ toggleRender }
+        />
       </ContentWrapper>
     );
   }
@@ -40,5 +45,7 @@ export default class MusicCard extends Component {
 
 MusicCard.propTypes = {
   previewUrl: PropTypes.string.isRequired,
+  toggleRender: PropTypes.func.isRequired,
+  trackId: PropTypes.number.isRequired,
   trackName: PropTypes.string.isRequired,
 };

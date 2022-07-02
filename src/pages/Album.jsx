@@ -35,6 +35,7 @@ export default class Album extends Component {
       album: [],
       musics: [],
       render: false,
+      loading: false,
     };
   }
 
@@ -48,36 +49,49 @@ export default class Album extends Component {
     this.setState({
       album,
       musics,
+    }, () => this.setState({
       render: true,
-    });
+    }));
   }
+
+  toggleRender = () => this.setState(({ loading: prevRender }) => ({
+    loading: !prevRender,
+  }))
 
   render() {
     const { render } = this.state;
     if (!render) return <Loading />;
-    const { album, musics } = this.state;
+    const { album, musics, loading } = this.state;
     const { collectionName, artistName, artworkUrl100 } = album;
 
     return (
       <Wrapper data-testid="page-album">
         <Header />
         <InnerWrapper>
-          <AlbumDisplay>
-            <AlbumCard
-              collectionName={ collectionName }
-              artistName={ artistName }
-              artworkUrl100={ artworkUrl100 }
-            />
-            <MusicsDisplay>
-              {
-                musics.map(({ trackId, trackName, previewUrl }) => (<MusicCard
-                  key={ trackId }
-                  trackName={ trackName }
-                  previewUrl={ previewUrl }
-                />))
-              }
-            </MusicsDisplay>
-          </AlbumDisplay>
+          {
+            loading
+              ? <Loading />
+              : (
+                <AlbumDisplay>
+                  <AlbumCard
+                    collectionName={ collectionName }
+                    artistName={ artistName }
+                    artworkUrl100={ artworkUrl100 }
+                  />
+                  <MusicsDisplay>
+                    {
+                      musics.map(({ trackId, trackName, previewUrl }) => (<MusicCard
+                        key={ trackId }
+                        trackId={ trackId }
+                        trackName={ trackName }
+                        previewUrl={ previewUrl }
+                        toggleRender={ this.toggleRender }
+                      />))
+                    }
+                  </MusicsDisplay>
+                </AlbumDisplay>
+              )
+          }
         </InnerWrapper>
       </Wrapper>);
   }
