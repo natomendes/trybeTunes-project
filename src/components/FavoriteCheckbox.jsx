@@ -5,12 +5,16 @@ import heartOutline from '../images/heart-outline.svg';
 import heart from '../images/heart.svg';
 import getMusics from '../services/musicsAPI';
 import { addSong } from '../services/favoriteSongsAPI';
+import Loading from '../pages/Loading';
 
 export default class FavoriteCheckbox extends Component {
-  state = {
-    src: heartOutline,
-    loading: false,
-    isChecked: false,
+  constructor(props) {
+    super(props);
+    this.state = {
+      src: props.checked ? heart : heartOutline,
+      loading: false,
+      isChecked: props.checked,
+    };
   }
 
   componentDidMount() {
@@ -31,11 +35,11 @@ export default class FavoriteCheckbox extends Component {
         const musicObj = await getMusics(trackId);
         await addSong(musicObj[0]);
         const newSrc = src === heartOutline ? heart : heartOutline;
-        this.setState({
+        this.setState(({ isChecked: prevChecked }) => ({
           src: newSrc,
-          isChecked: true,
+          isChecked: !prevChecked,
           loading: false,
-        });
+        }));
       }
     });
   }
@@ -43,7 +47,7 @@ export default class FavoriteCheckbox extends Component {
   render() {
     const { src, loading, isChecked } = this.state;
     const { trackId } = this.props;
-    if (loading) return ('Carregando...');
+    if (loading) return (<Loading width="24px" />);
     return (
       <label
         htmlFor={ trackId }
@@ -64,4 +68,5 @@ export default class FavoriteCheckbox extends Component {
 
 FavoriteCheckbox.propTypes = {
   trackId: PropTypes.number.isRequired,
+  checked: PropTypes.bool.isRequired,
 };

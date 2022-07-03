@@ -20,12 +20,6 @@ code {
     monospace;
 }
 
-.loading {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
 a {
   color: inherit;
 }

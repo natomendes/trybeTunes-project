@@ -5,6 +5,7 @@ import AlbumCard from '../components/AlbumCard';
 import Header from '../components/Header';
 import MusicCard from '../components/MusicCard';
 import Wrapper from '../components/Wrapper';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 import getMusics from '../services/musicsAPI';
 import Loading from './Loading';
 
@@ -34,34 +35,32 @@ export default class Album extends Component {
     this.state = {
       album: [],
       musics: [],
+      favoriteSongs: [],
       render: false,
-      loading: false,
     };
   }
 
   async componentDidMount() {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
+    const { match: { params: { id } } } = this.props;
     const response = await getMusics(id);
-    const [album] = response;
-    const [, ...musics] = response;
+    const [album, ...musics] = response;
+    const favoriteSongs = await getFavoriteSongs();
     this.setState({
       album,
       musics,
+      favoriteSongs,
     }, () => this.setState({
       render: true,
     }));
   }
 
-  toggleRender = () => this.setState(({ loading: prevRender }) => ({
-    loading: !prevRender,
-  }))
+  componentDidUpdate() {
+
+  }
 
   render() {
     const { render } = this.state;
-    if (!render) return <Loading />;
-    const { album, musics, loading } = this.state;
+    const { album, musics } = this.state;
     const { collectionName, artistName, artworkUrl100 } = album;
 
     return (
@@ -69,7 +68,7 @@ export default class Album extends Component {
         <Header />
         <InnerWrapper>
           {
-            loading
+            !render
               ? <Loading />
               : (
                 <AlbumDisplay>
@@ -80,13 +79,18 @@ export default class Album extends Component {
                   />
                   <MusicsDisplay>
                     {
-                      musics.map(({ trackId, trackName, previewUrl }) => (<MusicCard
-                        key={ trackId }
-                        trackId={ trackId }
-                        trackName={ trackName }
-                        previewUrl={ previewUrl }
-                        toggleRender={ this.toggleRender }
-                      />))
+                      musics.map(({ trackId, trackName, previewUrl }) => {
+                        const { favoriteSongs } = this.state;
+                        const checked = favoriteSongs
+                          .some(({ trackId: favTrackId }) => trackId === favTrackId);
+                        return (<MusicCard
+                          key={ trackId }
+                          trackId={ trackId }
+                          trackName={ trackName }
+                          previewUrl={ previewUrl }
+                          checked={ checked }
+                        />);
+                      })
                     }
                   </MusicsDisplay>
                 </AlbumDisplay>

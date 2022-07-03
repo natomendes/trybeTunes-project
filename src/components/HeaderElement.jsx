@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import logo2 from '../images/logo2.png';
 import userIcon from '../images/userIcon.svg';
+import Loading from '../pages/Loading';
 
 const HeaderElement = styled.header`
   width: 100%;
@@ -56,7 +57,7 @@ export default class HElement extends Component {
             src={ userIcon }
           />
           <UserBarText data-testid="header-user-name">
-            {userName || 'Carregando...'}
+            {userName || <Loading width="35px" />}
           </UserBarText>
         </UserBar>
       </HeaderElement>
