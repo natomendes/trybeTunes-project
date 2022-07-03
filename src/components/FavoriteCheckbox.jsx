@@ -4,7 +4,7 @@ import '../styles/FavoriteCheckbox.css';
 import heartOutline from '../images/heart-outline.svg';
 import heart from '../images/heart.svg';
 import getMusics from '../services/musicsAPI';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, removeSong } from '../services/favoriteSongsAPI';
 import Loading from '../pages/Loading';
 
 export default class FavoriteCheckbox extends Component {
@@ -30,10 +30,14 @@ export default class FavoriteCheckbox extends Component {
       loading: true,
     }, async () => {
       if (this.isMount) {
-        const { src } = this.state;
+        const { src, isChecked } = this.state;
         const { trackId } = this.props;
         const musicObj = await getMusics(trackId);
-        await addSong(musicObj[0]);
+        if (isChecked) {
+          await removeSong(musicObj[0]);
+        } else {
+          await addSong(musicObj[0]);
+        }
         const newSrc = src === heartOutline ? heart : heartOutline;
         this.setState(({ isChecked: prevChecked }) => ({
           src: newSrc,

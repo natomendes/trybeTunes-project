@@ -54,10 +54,6 @@ export default class Album extends Component {
     }));
   }
 
-  componentDidUpdate() {
-
-  }
-
   render() {
     const { render } = this.state;
     const { album, musics } = this.state;
