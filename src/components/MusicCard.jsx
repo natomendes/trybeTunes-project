@@ -23,7 +23,11 @@ const MusicName = styled.p`
 
 export default class MusicCard extends Component {
   render() {
-    const { trackId, trackName, previewUrl, checked } = this.props;
+    const { trackId,
+      trackName,
+      previewUrl,
+      checked,
+      updateFavSongs } = this.props;
     return (
       <ContentWrapper>
         <MusicName>{trackName}</MusicName>
@@ -37,6 +41,7 @@ export default class MusicCard extends Component {
         <FavoriteCheckbox
           trackId={ trackId }
           checked={ checked }
+          updateFavSongs={ updateFavSongs }
         />
       </ContentWrapper>
     );
@@ -47,5 +52,11 @@ MusicCard.propTypes = {
   previewUrl: PropTypes.string.isRequired,
   trackId: PropTypes.number.isRequired,
   trackName: PropTypes.string.isRequired,
-  checked: PropTypes.bool.isRequired,
+  checked: PropTypes.bool,
+  updateFavSongs: PropTypes.func,
+};
+
+MusicCard.defaultProps = {
+  updateFavSongs: undefined,
+  checked: true,
 };

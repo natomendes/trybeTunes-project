@@ -31,13 +31,15 @@ export default class FavoriteCheckbox extends Component {
     }, async () => {
       if (this.isMount) {
         const { src, isChecked } = this.state;
-        const { trackId } = this.props;
+        const { trackId, updateFavSongs } = this.props;
         const musicObj = await getMusics(trackId);
         if (isChecked) {
           await removeSong(musicObj[0]);
         } else {
           await addSong(musicObj[0]);
         }
+        updateFavSongs();
+
         const newSrc = src === heartOutline ? heart : heartOutline;
         this.setState(({ isChecked: prevChecked }) => ({
           src: newSrc,
@@ -55,15 +57,16 @@ export default class FavoriteCheckbox extends Component {
     return (
       <label
         htmlFor={ trackId }
-        data-testid={ `checkbox-music-${trackId}` }
       >
         <input
+          data-testid={ `checkbox-music-${trackId}` }
           type="checkbox"
           id={ trackId }
           onChange={ this.handleClick }
           checked={ isChecked }
         />
-        <img src={ src } alt="favicon" className="label" />
+        <img src={ src } alt="favicon" />
+        <span className="labelText">Favorita</span>
       </label>
 
     );
@@ -73,4 +76,9 @@ export default class FavoriteCheckbox extends Component {
 FavoriteCheckbox.propTypes = {
   trackId: PropTypes.number.isRequired,
   checked: PropTypes.bool.isRequired,
+  updateFavSongs: PropTypes.func,
+};
+
+FavoriteCheckbox.defaultProps = {
+  updateFavSongs: undefined,
 };

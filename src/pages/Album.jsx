@@ -54,6 +54,13 @@ export default class Album extends Component {
     }));
   }
 
+  updateFavSongs = async () => {
+    const favoriteSongs = await getFavoriteSongs();
+    this.setState({
+      favoriteSongs,
+    });
+  }
+
   render() {
     const { render } = this.state;
     const { album, musics } = this.state;
@@ -85,6 +92,7 @@ export default class Album extends Component {
                           trackName={ trackName }
                           previewUrl={ previewUrl }
                           checked={ checked }
+                          updateFavSongs={ this.updateFavSongs }
                         />);
                       })
                     }
