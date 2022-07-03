@@ -40,6 +40,8 @@ export default class MusicCard extends Component {
         </audio>
         <FavoriteCheckbox
           trackId={ trackId }
+          trackName={ trackName }
+          previewUrl={ previewUrl }
           checked={ checked }
           updateFavSongs={ updateFavSongs }
         />

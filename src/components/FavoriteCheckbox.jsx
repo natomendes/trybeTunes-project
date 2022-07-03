@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import '../styles/FavoriteCheckbox.css';
 import heartOutline from '../images/heart-outline.svg';
 import heart from '../images/heart.svg';
-import getMusics from '../services/musicsAPI';
 import { addSong, removeSong } from '../services/favoriteSongsAPI';
 import Loading from '../pages/Loading';
 
@@ -31,12 +30,17 @@ export default class FavoriteCheckbox extends Component {
     }, async () => {
       if (this.isMount) {
         const { src, isChecked } = this.state;
-        const { trackId, updateFavSongs } = this.props;
-        const musicObj = await getMusics(trackId);
+        const { trackId, trackName, previewUrl, updateFavSongs } = this.props;
+        const musicObj = {
+          trackId,
+          trackName,
+          previewUrl,
+        };
+        console.log(musicObj);
         if (isChecked) {
-          await removeSong(musicObj[0]);
+          await removeSong(musicObj);
         } else {
-          await addSong(musicObj[0]);
+          await addSong(musicObj);
         }
         updateFavSongs();
 
@@ -75,6 +79,8 @@ export default class FavoriteCheckbox extends Component {
 
 FavoriteCheckbox.propTypes = {
   trackId: PropTypes.number.isRequired,
+  previewUrl: PropTypes.string.isRequired,
+  trackName: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
   updateFavSongs: PropTypes.func,
 };
