@@ -9,6 +9,14 @@ import MusicCard from '../components/MusicCard';
 const MusicsDisplay = styled.div`
   display: flex;
   flex-direction: column;
+  align-self:center;
+`;
+
+const FavTitle = styled.h2`
+  color: white;
+  text-align: center;
+  font-family: 'Verdana', sans-serif;
+  padding: 20px 0;
 `;
 
 export default class Favorites extends Component {
@@ -44,6 +52,7 @@ export default class Favorites extends Component {
     return (
       <Wrapper data-testid="page-favorites">
         <Header />
+        <FavTitle>Musicas Favoritas</FavTitle>
         {
           loading ? <Loading width="60px" />
             : (

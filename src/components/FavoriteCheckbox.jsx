@@ -36,7 +36,6 @@ export default class FavoriteCheckbox extends Component {
           trackName,
           previewUrl,
         };
-        console.log(musicObj);
         if (isChecked) {
           await removeSong(musicObj);
         } else {
