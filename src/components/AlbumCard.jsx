@@ -14,7 +14,6 @@ const ContentWrapper = styled.div`
   &:hover {
     box-shadow: 0 0 12px #719ECE;
   }
-
 `;
 
 const ImageWrapper = styled.div`

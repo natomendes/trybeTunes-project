@@ -8,6 +8,7 @@ import Input from './Input';
 import TextArea from './TextArea';
 import userIcon from '../images/userIcon.svg';
 import Button from './Button';
+import getBase64Image from '../services/getBase64Image';
 
 const Form = styled.form`
   display: flex;
@@ -33,6 +34,8 @@ const FormHeader = styled.div`
 
 const UserImg = styled.img`
   width: 80px;
+  height: 80px;
+  border-radius: 50%;
 `;
 
 const SpanLabel = styled.span`
@@ -99,8 +102,11 @@ export default class ProfileForm extends Component {
     });
   }
 
-  handleChange = ({ target }) => {
-    const { name, value } = target;
+  handleChange = async ({ target }) => {
+    const { name } = target;
+    const value = target.type === 'file'
+      ? await getBase64Image({ target })
+      : target.value;
     this.setState({
       [name]: value,
     }, () => this.updateSaveBtnDisabled());
@@ -150,23 +156,6 @@ export default class ProfileForm extends Component {
     } = this.state;
     if (updated) return <Redirect to="/profile" />;
     if (loading) return (<Loading width="50px" />);
-
-    if (isDisabled) {
-      return (
-        <div>
-          <p>{name}</p>
-          <p>{email}</p>
-          <p>{description}</p>
-          <img src={ image } alt="userimg" data-testid="profile-image" />
-          <Link to="/profile/edit">
-            <Button>
-              Editar perfil
-            </Button>
-          </Link>
-
-        </div>
-      );
-    }
     return (
       <Form>
         <FormHeader>
@@ -185,10 +174,10 @@ export default class ProfileForm extends Component {
               )
               : (
                 <ProfileInput
-                  type="text"
+                  type="file"
                   name="image"
                   id="image"
-                  value={ image }
+                  filename={ image }
                   onChange={ this.handleChange }
                   data-testid="edit-input-image"
                 />

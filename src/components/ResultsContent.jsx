@@ -12,6 +12,9 @@ const ContentWrapper = styled.div`
   gap: 20px;
   padding-top: 20px;
 `;
+const ResultsTitle = styled.h2`
+  color: white;
+`;
 
 export default class ResultsContent extends Component {
   render() {
@@ -21,7 +24,7 @@ export default class ResultsContent extends Component {
 
     return (
       <>
-        <h2>{`Resultado de álbuns de: ${searchValue}`}</h2>
+        <ResultsTitle>{`Resultado de álbuns de: ${searchValue}`}</ResultsTitle>
         <ContentWrapper>
           {
             searchResult.map((album) => (

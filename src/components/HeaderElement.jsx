@@ -43,22 +43,31 @@ const UserBarText = styled.h2`
 `;
 
 const UserIcon = styled.img`
+  width: 35px;
   height: 35px;
+  border-radius: 50%;
 `;
 
 export default class HElement extends Component {
   render() {
-    const { userName } = this.props;
+    const { userName, userImg } = this.props;
     return (
       <HeaderElement data-testid="header-component">
         <LogoImg />
         <UserBar>
-          <UserIcon
-            src={ userIcon }
-          />
-          <UserBarText data-testid="header-user-name">
-            {userName || <Loading width="35px" />}
-          </UserBarText>
+          {
+            !userName ? <Loading width="35px" />
+              : (
+                <>
+                  <UserIcon
+                    src={ userImg || userIcon }
+                  />
+                  <UserBarText data-testid="header-user-name">
+                    {userName}
+                  </UserBarText>
+                </>
+              )
+          }
         </UserBar>
       </HeaderElement>
 
@@ -68,4 +77,5 @@ export default class HElement extends Component {
 
 HElement.propTypes = {
   userName: PropTypes.string.isRequired,
+  userImg: PropTypes.string.isRequired,
 };
