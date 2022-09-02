@@ -1,16 +1,17 @@
-# 🚧 README em construção 🚧
+# TrybeTunes Project
+Projeto desenvolvido para o curso de desenvolvimento web da [Trybe](https://www.betrybe.com/)
 
-<!-- Olá, Tryber!
+Esse projeto foi desenvolvido com o intuito de fixar os conhecimentos aprendidos sobre React, componentes de classes e métodos de ciclo de vida.
 
-Esse é apenas um arquivo inicial para o README do seu projeto.
+Para a estilização do layout utilizei styled-components.
 
-É essencial que você preencha esse documento por conta própria, ok?
+A Aplicação funciona como um spotify, utlizando da API da apple music para fornecer as músicas, você pode procurar pelo seus artistas prediletos, favoritar suas musicas preferidas e personalizar suas informações de perfil.
 
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
+---
+Project developed for the web developer course at [Trybe](https://www.betrybe.com/)
 
-⚠️ IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
+This project was developed to fixate what I have learned about React, class components and lyfe cycle methods.
 
--->
+For the layout styling I've used sylted-components.
+
+The App works like a spotify, it consumes apple music API to provide the songs, you can then look for the singers you like the most, favorite the songs you enjoy and customize your profile info.
